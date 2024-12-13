@@ -1,5 +1,7 @@
 # Proyek IOT - Pemantauan Kualitas Air
- 
+[![Connected State](Documentation/connected-state.png)]
+[![Disconnected State](Documentation/disconnected state.png)]
+[![ConnectedState(2)](Documentation/connected-state-live.png)]
 
 ## Prequisite (Hardware)
  
