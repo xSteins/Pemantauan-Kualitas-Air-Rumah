@@ -42,6 +42,8 @@ Software ini buat koding & upload program ke devicenya, dan menjalankan local we
  
 
 - [ ] NodeJS
- 
+
+
+- [ ] Mosquitto (Windows) untuk testing MQTT
 
 ## Hasil Testing
