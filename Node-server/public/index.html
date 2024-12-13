@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pantauan Air Toren</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f7f7f7;
+        }
+
+        .header {
+            background-color: #f2eafa;
+            padding: 15px;
+            border-radius: 10px;
+            line-height: 2ch;
+        }
+
+        .header>* {
+            margin: 0.5rem 0;
+            padding: 0;
+        }
+
+
+        .metrics {
+            display: flex;
+            justify-content: space-between;
+            margin: 20px 0;
+        }
+
+
+        .items {
+            flex-grow: 1;
+            text-align: center;
+            background-color: #f9f9f9;
+            padding: 1rem;
+            border-radius: 10px;
+            border: 2px solid rgb(138, 138, 138);
+            margin-bottom: 20px;
+        }
+
+        .items h2 {
+            margin: 0;
+            color: #3d8b3d;
+        }
+
+        .items p {
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+
+        .footer {
+            text-align: left;
+            font-size: 14px;
+        }
+    </style>
+    <!-- ini buat kirim & terima data dari server node pakai websocket (cek server.js) -->
+    <script>
+        const ws = new WebSocket('ws://localhost:3000');
+
+        ws.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+
+            // update elementnya
+            document.getElementById('temp-value').textContent = data.temp ? `${data.temp} C` : 'No data';
+            document.getElementById('ph-value').textContent = data.ph || 'No data';
+            document.getElementById('turbidity-value').textContent = data.turbidity ? `${data.turbidity} ppm` : 'No data';
+            document.getElementById('tds-value').textContent = data.tds ? `${data.tds} %` : 'No data';
+        };
+    </script>
+
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Selamat pagi,</h1>
+            <h3>Kualitas air saat ini</h3>
+            <h3><strong>Sangat Baik.</strong></h3>
+            <p>Data hari ini menunjukkan kondisi air dalam batas aman.
+            </p>
+        </div>
+        <div class="metrics">
+            <div class="items">
+                <p><strong>SUHU</strong></p>
+                <p id="temp-value"></p>
+            </div>
+            <div class="items">
+                <p><strong>PH</strong></p>
+                <p id="ph-value"></p>
+            </div>
+            <div class="items">
+                <p><strong>Turbidity</strong></p>
+                <p id="turbidity-value"></p>
+            </div>
+            <div class="items">
+                <p><strong>TDS</strong></p>
+                <p id="tds-value"></p>
+            </div>
+        </div>
+
+        <div class="items footer">
+            <p>Aplikasi ini membantu memantau kualitas air secara real-time dengan menggunakan data dari sensor :
+                <br>Suhu, pH, TDS (Total Dissolved Solid), dan Turbidity (Kekeruhan air).
+            </p>
+            <br>
+            <p><strong>Metriks :</strong></p>
+            <p>pH : 7 (± 0.5 dari 7)</p>
+            <p>Suhu : 16–30°C</p>
+            <p>TDS : 50–300 ppm</p>
+            <p>Komposisi Air Bersih : 80%-100%</p>
+        </div>
+    </div>
+</body>
+
+</html>
