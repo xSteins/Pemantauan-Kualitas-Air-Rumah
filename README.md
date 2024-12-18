@@ -1,5 +1,7 @@
 # Proyek IOT - Pemantauan Kualitas Air
- 
+![Connected State](Documentation/connected-state.png)
+![Disconnected State](https://github.com/xSteins/Pemantauan-Kualitas-Air-Rumah/blob/aeeb123c64fd8aec883219f7beadc218bd09b4fb/Documentation/connected-state.png)
+![ConnectedState(2)](Documentation/connected-state-live.png)
 
 ## Prequisite (Hardware)
  
