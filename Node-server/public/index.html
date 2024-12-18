@@ -8,13 +8,26 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0.5rem;
             background-color: #f7f7f7;
+        }
+
+        ul,
+        ol,
+        li {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            font-size: 0.8rem;
+        }
+
+        li {
+            line-height: 1.2rem;
         }
 
         .header {
             background-color: #f2eafa;
-            padding: 15px;
+            padding: 1rem;
             border-radius: 10px;
             line-height: 2ch;
         }
@@ -28,9 +41,12 @@
         .metrics {
             display: flex;
             justify-content: space-between;
-            margin: 20px 0;
         }
 
+        .log-container {
+            height: 150px;
+            overflow-y: scroll;
+        }
 
         .items {
             flex-grow: 1;
@@ -39,7 +55,7 @@
             padding: 1rem;
             border-radius: 10px;
             border: 2px solid rgb(138, 138, 138);
-            margin-bottom: 20px;
+            margin-top: 0.4rem;
         }
 
         .items h2 {
@@ -59,17 +75,29 @@
     </style>
     <!-- ini buat kirim & terima data dari server node pakai websocket (cek server.js) -->
     <script>
-        const ws = new WebSocket('ws://localhost:3000');
+        document.addEventListener(DOMContentLoaded, () => {
+            const ws = new WebSocket('ws://localhost:3000');
+            let logData = [];
+            const logList = document.getElementById('logList');
+            ws.onmessage = (event) => {
+                const data = JSON.parse(event.data);
 
-        ws.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+                // update elementnya
+                document.getElementById('temp-value').textContent = data.temp ? `${data.temp} C` : 'No data';
+                document.getElementById('ph-value').textContent = data.ph || 'No data';
+                document.getElementById('turbidity-value').textContent = data.turbidity ? `${data.turbidity} ppm` : 'No data';
+                document.getElementById('tds-value').textContent = data.tds ? `${data.tds} %` : 'No data';
 
-            // update elementnya
-            document.getElementById('temp-value').textContent = data.temp ? `${data.temp} C` : 'No data';
-            document.getElementById('ph-value').textContent = data.ph || 'No data';
-            document.getElementById('turbidity-value').textContent = data.turbidity ? `${data.turbidity} ppm` : 'No data';
-            document.getElementById('tds-value').textContent = data.tds ? `${data.tds} %` : 'No data';
-        };
+                // ini buat logging
+                const timestamp = new Date().toLocaleString(); // dapatkan waktu sekarang
+                const logEntry = `${timestamp} | ${data.temp}C | ${data.ph} | ${data.turbidity}ppm | ${data.tds}%`;
+                logData.push(logEntry);
+                // update elemen log di HTML
+                const listItem = document.createElement('li');
+                listItem.textContent = logEntry;
+                logList.appendChild(listItem);
+            };
+        })
     </script>
 
 </head>
@@ -86,20 +114,42 @@
         <div class="metrics">
             <div class="items">
                 <p><strong>SUHU</strong></p>
-                <p id="temp-value"></p>
+                <p id="temp-value">No data</p>
             </div>
             <div class="items">
                 <p><strong>PH</strong></p>
-                <p id="ph-value"></p>
+                <p id="ph-value">No data</p>
             </div>
             <div class="items">
                 <p><strong>Turbidity</strong></p>
-                <p id="turbidity-value"></p>
+                <p id="turbidity-value">No data</p>
             </div>
             <div class="items">
                 <p><strong>TDS</strong></p>
-                <p id="tds-value"></p>
+                <p id="tds-value">No data</p>
             </div>
+        </div>
+        <div class="items log-container">
+            <ol id="logList">
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+                <li>2024-12-12 | 24C | 7.15 | 100ppm | 90%</li>
+            </ol>
         </div>
 
         <div class="items footer">
