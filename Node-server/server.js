@@ -50,16 +50,23 @@ client.on('connect', () => {
     console.log('Connected to MQTT broker');
 });
 
+//update data
 client.on('message', (topic, message) => {
     const value = message.toString();
     if (currentProfileId) {
         const currentProfile = profiles.find(profile => profile.id === currentProfileId);
         if (currentProfile && currentProfile.sensors) {
-            const sensors = currentProfile.sensors;
-            if (topic === sensors.TEMP) sensorData.temp = value;
-            else if (topic === sensors.PH) sensorData.ph = value;
-            else if (topic === sensors.TUR) sensorData.turbidity = value;
-            else if (topic === sensors.TDS) sensorData.tds = value;
+            //ekstraksi nama topik
+            const currTemp ="kualair/"+currentProfile.sensors.TEMP+"/TEMP";
+            const currPh ="kualair/"+currentProfile.sensors.PH+"/PH";
+            const currTur ="kualair/"+currentProfile.sensors.TUR+"/TURBIDITY";
+            const currTds ="kualair/"+currentProfile.sensors.TDS+"/TDS";
+            const currTopics = {currTemp, currPh, currTur, currTds};
+            //update data sensor
+            if (topic ===currTopics.currTemp) sensorData.temp = value;
+            else if (topic === currTopics.currPh) sensorData.ph = value;
+            else if (topic === currTopics.currTur) sensorData.turbidity = value;
+            else if (topic === currTopics.currTds) sensorData.tds = value;
         }
     }
 
@@ -124,17 +131,8 @@ app.post('/api/profiles/:id/configure', (req, res) => {
 
     if (profile) {
         profile.sensors = { PH, TEMP, TUR, TDS };
-
-        const topics = [PH, TEMP, TUR, TDS];
-        client.unsubscribe();
-        client.subscribe(topics, err => {
-            if (!err) {
-                console.log(`Subscribed to topics: ${topics.join(', ')}`);
-            }
-        });
-
         saveProfiles(); // Save profiles to file
-        res.status(200).json({ message: 'Sensors configured', profile });
+        res.status(200).json({ message: 'Sensors configured', profile });   
     } else {
         res.status(404).json({ message: 'Profile not found' });
     }
@@ -147,8 +145,10 @@ app.post('/deviceSelection', (req, res) => {
 
     if (profile) {
         currentProfileId = parseInt(profileId); // Save active profile ID
-        const topics = Object.values(profile.sensors);
-        client.unsubscribe();
+        // console.log(profile.sensors);
+        const { PH, TEMP, TUR, TDS }  = profile.sensors;
+        const topics = ["kualair/"+PH+"/PH", "kualair/"+TEMP+"/TEMP", "kualair/"+TUR+"/TURBIDITY", "kualair/"+TDS+"/TDS"];
+        client.unsubscribe(["kualair/+/PH", "kualair/+/TEMP", "kualair/+/TURBIDITY", "kualair/+/TDS"]);
         client.subscribe(topics, err => {
             if (!err) {
                 console.log(`Subscribed to topics for profile ${profile.name}: ${topics.join(', ')}`);

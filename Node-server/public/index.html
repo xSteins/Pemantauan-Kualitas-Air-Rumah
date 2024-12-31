@@ -29,13 +29,21 @@
                 box-shadow: 0 0 5px #3b82f6;
             }
         }
-
+        body {
+            padding-bottom: 50px;
+        }
         .fade-in {
             animation: fadeIn 1s ease-in-out;
         }
 
         .glow {
             animation: glowing 2s infinite ease-in-out;
+        }
+
+        #logs{
+            height: 110px;
+            overflow-x: hidden;
+            overflow-y: auto;
         }
     </style>
     <script>
@@ -154,7 +162,7 @@
     </div>
 
     <!-- Log -->
-    <div class="mt-8 w-11/12 max-w-4xl bg-white shadow-lg rounded-lg p-4 overflow-auto fade-in">
+    <div class="mt-8 w-11/12 max-w-4xl bg-white shadow-lg rounded-lg p-4 overflow-auto fade-in" id="logs">
         <h3 class="text-lg font-semibold text-gray-600">Log Data</h3>
         <ul id="logList" class="mt-4 space-y-2 text-sm text-gray-500"></ul>
     </div>

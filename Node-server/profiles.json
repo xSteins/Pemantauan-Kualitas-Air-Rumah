@@ -1,7 +1,12 @@
 [
   {
     "id": 1,
-    "name": "rumah1",
-    "sensors": null
+    "name": "RALVIN01",
+    "sensors": {
+      "PH": "RALVIN01",
+      "TEMP": "RALVIN01",
+      "TUR": "RALVIN01",
+      "TDS": "RALVIN01"
+    }
   }
 ]
