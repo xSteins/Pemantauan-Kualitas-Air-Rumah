@@ -68,10 +68,10 @@ void parseAndSendData(String data) {
   String tds = data.substring(thirdHash + 1);
 
   // mengirimkan data ke topik mqtt yang sesuai
-  boolean ph_sent = client.publish("RALVIN01PH", ph.c_str());
-  boolean temp_sent = client.publish("RALVIN01TEMP", temp.c_str());
-  boolean tds_sent = client.publish("RALVIN01TDS", tds.c_str());
-  boolean turb_sent = client.publish("RALVIN01TURBIDITY", turbidity.c_str());
+  boolean ph_sent = client.publish("kualair/RALVIN01/PH", ph.c_str());
+  boolean temp_sent = client.publish("kualair/RALVIN01/TEMP", temp.c_str());
+  boolean tds_sent = client.publish("kualair/RALVIN01/TDS", tds.c_str());
+  boolean turb_sent = client.publish("kualair/RALVIN01/TURBIDITY", turbidity.c_str());
 
   // cek apakah semua data berhasil dikirim
   if (ph_sent && temp_sent && tds_sent && turb_sent) {
