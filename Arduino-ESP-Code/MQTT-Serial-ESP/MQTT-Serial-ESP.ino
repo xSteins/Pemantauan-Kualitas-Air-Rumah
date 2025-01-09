@@ -19,7 +19,8 @@ void setup() {
     Serial.print(".");
   }
 
-  Serial.println("connected to wifi");
+  Serial.print("connected to wifi : ");
+  Serial.println(ssid);
 
   // inisialisasi koneksi mqtt
   client.setServer(mqtt_server, mqtt_port);
@@ -55,6 +56,11 @@ void reconnect() {
     }
   }
 }
+// set topicnya disini, supaya lebih mudah diganti
+String topicPh = "kualair/RALVIN01/PH";
+String topicTemp = "kualair/RALVIN01/TEMP";
+String topicTds = "kualair/RALVIN01/TDS";
+String topicTurbidity = "kualair/RALVIN01/TURBIDITY";
 
 void parseAndSendData(String data) {
   // memisahkan data berdasarkan simbol '#'
@@ -68,15 +74,18 @@ void parseAndSendData(String data) {
   String tds = data.substring(thirdHash + 1);
 
   // mengirimkan data ke topik mqtt yang sesuai
-  boolean ph_sent = client.publish("kualair/RALVIN01/PH", ph.c_str());
-  boolean temp_sent = client.publish("kualair/RALVIN01/TEMP", temp.c_str());
-  boolean tds_sent = client.publish("kualair/RALVIN01/TDS", tds.c_str());
-  boolean turb_sent = client.publish("kualair/RALVIN01/TURBIDITY", turbidity.c_str());
+  boolean ph_sent = client.publish(topicPh.c_str(), ph.c_str());
+  boolean temp_sent = client.publish(topicTemp.c_str(), temp.c_str());
+  boolean tds_sent = client.publish(topicTds.c_str(), tds.c_str());
+  boolean turb_sent = client.publish(topicTurbidity.c_str(), turbidity.c_str());
 
   // cek apakah semua data berhasil dikirim
   if (ph_sent && temp_sent && tds_sent && turb_sent) {
-    Serial.println("Data berhasil dikirim");
-  } else {
+    Serial.println("Data berhasil dikirim ke topik:");
+    Serial.println(topicPh + ", " + ph);
+    Serial.println(topicTemp + ", " + temp);
+    Serial.println(topicTds + ", " + tds);
+    Serial.println(topicTurbidity + ", " + turbidity);  } else {
     Serial.println("Data gagal dikirim");
   }
 }
