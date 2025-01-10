@@ -60,12 +60,12 @@
                 if ((data.ph !== null && (data.ph < 4 || data.ph > 11)) ||
                     (data.temp !== null && (data.temp < 10 || data.temp > 35)) ||
                     (data.tds !== null && data.tds > 1200) ||
-                    (data.turbidity !== null && data.turbidity > 25)) {
+                    (data.turbidity !== null && data.turbidity <= 25)) {
                     status = "Sangat Buruk";
                 } else if ((data.ph !== null && (data.ph < 6.5 || data.ph > 8.5)) ||
                            (data.temp !== null && (data.temp < 16 || data.temp > 30)) ||
                            (data.tds !== null && (data.tds < 50 || data.tds > 300)) ||
-                           (data.turbidity !== null && data.turbidity > 5)) {
+                           (data.turbidity !== null && data.turbidity <= 50)) {
                     status = "Kurang Baik";
                 }
 
