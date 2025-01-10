@@ -90,15 +90,15 @@
                 // Update metrics
                 document.getElementById('temp-value').textContent = data.temp ? `${data.temp} °C` : 'No data';
                 document.getElementById('ph-value').textContent = data.ph || 'No data';
-                document.getElementById('turbidity-value').textContent = data.turbidity ? `${data.turbidity} ppm` : 'No data';
-                document.getElementById('tds-value').textContent = data.tds ? `${data.tds} %` : 'No data';
+                document.getElementById('turbidity-value').textContent = data.turbidity ? `${data.turbidity} %` : 'No data';
+                document.getElementById('tds-value').textContent = data.tds ? `${data.tds} ppm` : 'No data';
 
                 // Update status summary
                 updateStatusSummary(data);
 
                 // Logging
                 const timestamp = new Date().toLocaleString();
-                const logEntry = `${timestamp} | Temp: ${data.temp || 'N/A'} | pH: ${data.ph || 'N/A'} | Turbidity: ${data.turbidity || 'N/A'} ppm | TDS: ${data.tds || 'N/A'}%`;
+                const logEntry = `${timestamp} | Temp: ${data.temp || 'N/A'} | pH: ${data.ph || 'N/A'} | Turbidity: ${data.turbidity || 'N/A'} % | TDS: ${data.tds || 'N/A'}ppm`;
                 logData.push(logEntry);
 
                 const listItem = document.createElement('li');
